@@ -1,7 +1,9 @@
 package com.pharmacy.service;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -14,10 +16,7 @@ public class StockController {
     }
 
     @GetMapping("/stock/{drugCode}")
-    public ResponseEntity<StockResponse> stock(@PathVariable String drugCode) {
-        StockResponse r = warehouseClient.checkStock(drugCode);
-        return "UNAVAILABLE".equals(r.status())
-                ? ResponseEntity.status(503).body(r)
-                : ResponseEntity.ok(r);
+    public StockResponse stock(@PathVariable String drugCode) {
+        return warehouseClient.checkStock(drugCode);
     }
 }
